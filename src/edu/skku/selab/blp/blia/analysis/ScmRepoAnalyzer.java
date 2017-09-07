@@ -162,7 +162,8 @@ public class ScmRepoAnalyzer {
 			Iterator<ExtendedIntegratedAnalysisValue> methodAnalysisValueIter = methodAnalysisValues.values().iterator();
 			while (methodAnalysisValueIter.hasNext()) {
 				ExtendedIntegratedAnalysisValue methodAnalysisValue = methodAnalysisValueIter.next();
-				integratedAnalysisDAO.insertMethodAnalysisVaule(methodAnalysisValue);
+				if (0 == integratedAnalysisDAO.updateMethodCommitScore(methodAnalysisValue))
+					integratedAnalysisDAO.insertMethodAnalysisVaule(methodAnalysisValue);
 
 				// DEBUG code
 //				if (0 == insertedColumnCount) {

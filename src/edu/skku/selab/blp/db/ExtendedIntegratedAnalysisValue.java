@@ -19,6 +19,7 @@ public class ExtendedIntegratedAnalysisValue extends IntegratedAnalysisValue {
 		super();
 		setMethodID(-1);
 		setBliaMethodScore(0.0);
+		
 	}
 
 	/**

@@ -19,8 +19,10 @@ import java.util.concurrent.Executors;
 
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.common.Bug;
+import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.common.SourceFile;
 import edu.skku.selab.blp.db.AnalysisValue;
+import edu.skku.selab.blp.db.ExtendedIntegratedAnalysisValue;
 import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.SimilarBugInfo;
 import edu.skku.selab.blp.db.dao.BugDAO;
@@ -33,6 +35,7 @@ import edu.skku.selab.blp.db.dao.IntegratedAnalysisDAO;
 public class BugRepoAnalyzer {
 	private ArrayList<Bug> bugs;
 	private HashMap<Integer, HashSet<SourceFile>> fixedFilesMap;
+	private HashMap<Integer, HashSet<Method>> fixedMethodsMap;
 	private HashMap<Integer, HashSet<SimilarBugInfo>> similarBugInfosMap;
 	
     public BugRepoAnalyzer() {
@@ -46,13 +49,15 @@ public class BugRepoAnalyzer {
     private void prepareData() throws Exception {
 		BugDAO bugDAO = new BugDAO();
 		fixedFilesMap = new HashMap<Integer, HashSet<SourceFile>>(); 
+		fixedMethodsMap = new HashMap<Integer, HashSet<Method>>();
 		similarBugInfosMap = new HashMap<Integer, HashSet<SimilarBugInfo>>();
 		for (int i = 0; i < bugs.size(); i++) {
 			Bug bug = bugs.get(i);
 			int bugID = bug.getID();
 			HashSet<SourceFile> fixedFiles = bugDAO.getFixedFiles(bugID);
 			fixedFilesMap.put(bugID, fixedFiles);
-			
+			HashSet<Method> fixedMethods = bugDAO.getFixedMethods(bugID);
+			fixedMethodsMap.put(bugID, fixedMethods);
 			HashSet<SimilarBugInfo> similarBugInfos = bugDAO.getSimilarBugInfos(bugID);
 			similarBugInfosMap.put(bugID, similarBugInfos);
 		}
@@ -81,6 +86,7 @@ public class BugRepoAnalyzer {
     		
     		int bugID = bug.getID();
     		HashMap<Integer, Double> similarScores = new HashMap<Integer, Double>(); 
+    		HashMap<Integer, Double> similarMthScores = new HashMap<Integer, Double>(); 
     		HashSet<SimilarBugInfo> similarBugInfos = similarBugInfosMap.get(bugID);
     		if (null != similarBugInfos) {
     			Iterator<SimilarBugInfo> similarBugInfosIter = similarBugInfos.iterator();
@@ -105,6 +111,25 @@ public class BugRepoAnalyzer {
     						}
     					}				
     				}
+    				
+    				HashSet<Method> fixedMethods = fixedMethodsMap.get(similarBugInfo.getSimilarBugID());
+    				if (null != fixedMethods) {
+    					int fixedMethodsCount = fixedMethods.size();
+    					double singleValue = similarBugInfo.getSimilarityScore() / fixedMethodsCount;
+    					Iterator<Method> fixedMethodsIter = fixedMethods.iterator();
+    					while (fixedMethodsIter.hasNext()) {
+    						Method fixedMethod = fixedMethodsIter.next();
+    						
+    						int methodVersionID = fixedMethod.getID();
+    						if (null != similarMthScores.get(methodVersionID)) {
+    							double similarMthScore = similarMthScores.get(methodVersionID).doubleValue() + singleValue;
+    							similarMthScores.remove(methodVersionID);
+    							similarMthScores.put(methodVersionID, Double.valueOf(similarMthScore));
+    						} else {
+    							similarMthScores.put(methodVersionID, Double.valueOf(singleValue));
+    						}
+    					}				
+    				}
     			}
     			
     	   		TreeSet<Double> simiScoreSet = new TreeSet<Double>();
@@ -125,7 +150,7 @@ public class BugRepoAnalyzer {
     				
     			}
     			
-        		double limitSimiScore = 0;
+    			double limitSimiScore = 0;
         		int candidateLimitSize = Integer.MAX_VALUE;
         		if (Property.getInstance().getCandidateLimitRate() != 1.0) {
         			candidateLimitSize = (int) (Property.getInstance().getFileCount() * Property.getInstance().getCandidateLimitRate());
@@ -141,6 +166,43 @@ public class BugRepoAnalyzer {
     					
     					if (0 == updatedColumenCount) {
     						integratedAnalysisDAO.insertAnalysisVaule(integratedAnalysisValue);
+    					}
+    				}
+    			}
+        		
+    			
+    			TreeSet<Double> simiMthScoreSet = new TreeSet<Double>();
+        		LinkedList<ExtendedIntegratedAnalysisValue> extendedIntegratedAnalysisValueList = new LinkedList<ExtendedIntegratedAnalysisValue>();
+    			
+    			Iterator<Integer> similarMthScoresIter = similarMthScores.keySet().iterator();
+    			while (similarMthScoresIter.hasNext()) {
+    				int methodVersionID = similarMthScoresIter.next();
+    				double similarMthScore = similarMthScores.get(methodVersionID).doubleValue();
+    				
+    				ExtendedIntegratedAnalysisValue extendedIntegratedAnalysisValue = new ExtendedIntegratedAnalysisValue();
+    				extendedIntegratedAnalysisValue.setBugID(bugID);
+    				extendedIntegratedAnalysisValue.setMethodID(methodVersionID);
+    				extendedIntegratedAnalysisValue.setSimilarityScore(similarMthScore);
+
+    				simiMthScoreSet.add(similarMthScore);
+    				extendedIntegratedAnalysisValueList.add(extendedIntegratedAnalysisValue);
+    				
+    			}
+
+        		double limitMthSimiScore = 0;
+        		int candidateMthLimitSize = Integer.MAX_VALUE;
+        		if (Property.getInstance().getCandidateLimitRate() != 1.0) {
+        			candidateMthLimitSize = (int) (Property.getInstance().getFileCount() * Property.getInstance().getCandidateLimitRate());
+        		}
+        		
+        		if (simiMthScoreSet.size() > candidateMthLimitSize) {
+        			limitMthSimiScore = (Double) (simiMthScoreSet.descendingSet().toArray()[candidateMthLimitSize -1]);
+        		}
+        		for (ExtendedIntegratedAnalysisValue extendedIntegratedAnalysisValue:extendedIntegratedAnalysisValueList) {
+    				if (extendedIntegratedAnalysisValue.getVsmScore() >= limitMthSimiScore) {
+    					int updatedColumenCount = integratedAnalysisDAO.updateMethodSimiScore(extendedIntegratedAnalysisValue);
+    					if (0 == updatedColumenCount) {
+    						integratedAnalysisDAO.insertMethodAnalysisVaule(extendedIntegratedAnalysisValue);
     					}
     				}
     			}

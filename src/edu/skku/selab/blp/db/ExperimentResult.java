@@ -29,6 +29,9 @@ public class ExperimentResult {
 	private double alpha;
 	private double beta;
 	private double gamma;
+	private double delta;
+
+
 	private int pastDays;
 	private Date experimentDate;
 	private double candidateRate;
@@ -51,11 +54,14 @@ public class ExperimentResult {
 		alpha = 0.0;
 		beta = 0.0;
 		gamma = 0.0;
+		delta = 0.0;
 		pastDays = 0;
 		setExperimentDate(new Date(System.currentTimeMillis()));
 		candidateRate = 0;
 	}
 
+
+	
 	/**
 	 * @return the top1
 	 */
@@ -315,5 +321,12 @@ public class ExperimentResult {
 	public void setGamma(double gamma) {
 		this.gamma = gamma;
 	}
+	
+	public double getDelta() {
+		return delta;
+	}
 
+	public void setDelta(double delta) {
+		this.delta = delta;
+	}
 }

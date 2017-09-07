@@ -40,6 +40,7 @@ public class BLIA {
 	private double alpha = 0;
 	private double beta = 0;
 	private double gamma = 0;
+	private double delta = 0;
 	private static Integer completeBugIdCount = 0;
 	
 	public BLIA() {
@@ -265,7 +266,7 @@ public class BLIA {
 		
 //		System.out.printf("After integratedAnalysisDAO.getAnalysisValues() \n");
 		normalizeVsmScore(integratedMethodAnalysisValues);
-		combineForMethodLevel(integratedMethodAnalysisValues, gamma);
+		combineForMethodLevel(integratedMethodAnalysisValues, gamma, delta);
 		
 		Iterator<Integer> integratedMethodAnalysisValuesIter = integratedMethodAnalysisValues.keySet().iterator();
 		while (integratedMethodAnalysisValuesIter.hasNext()) {
@@ -295,6 +296,7 @@ public class BLIA {
 		alpha = property.getAlpha();
 		beta = property.getBeta();
 		gamma = property.getGamma();
+		delta = property.getDelta();
 		
 //		integratedAnalysisValuesMap = new HashMap<String, HashMap<Integer, IntegratedAnalysisValue>>();
 //		IntegratedAnalysisDAO integratedAnalysisDAO = new IntegratedAnalysisDAO();
@@ -393,7 +395,7 @@ public class BLIA {
 	 * @param integratedMethodAnalysisValues
 	 * @param gamma
 	 */
-	private void combineForMethodLevel(HashMap<Integer, ExtendedIntegratedAnalysisValue> integratedMethodAnalysisValues, double gamma) {
+	private void combineForMethodLevel(HashMap<Integer, ExtendedIntegratedAnalysisValue> integratedMethodAnalysisValues, double gamma, double delta) {
 		Iterator<Integer> integratedMethodAnalysisValuesIter = integratedMethodAnalysisValues.keySet().iterator();
 		while (integratedMethodAnalysisValuesIter.hasNext()) {
 			int methodID = integratedMethodAnalysisValuesIter.next();
@@ -401,13 +403,18 @@ public class BLIA {
 			ExtendedIntegratedAnalysisValue integratedMethodAnalysisValue = integratedMethodAnalysisValues.get(methodID);
 			double methodVsmScore = integratedMethodAnalysisValue.getVsmScore();
 			double commitMethodLogScore = integratedMethodAnalysisValue.getCommitLogScore();
-			
-			double bliaMethodScore = 0.0;
-			if (methodVsmScore > 0) {
-				bliaMethodScore = (1 - gamma) * methodVsmScore + gamma * commitMethodLogScore;
+			double methodSimiScore = integratedMethodAnalysisValue.getSimilarityScore();
+			double mthBugLocatorScore = (1 - delta) * (methodVsmScore) + delta * methodSimiScore;
+			integratedMethodAnalysisValue.setBugLocatorScore(mthBugLocatorScore);
+			double bliaMethodScore = mthBugLocatorScore;
+			if (bliaMethodScore > 0) {
+				bliaMethodScore = (1 - gamma) * bliaMethodScore + gamma * commitMethodLogScore;
+			} else {
+				bliaMethodScore = 0;
 			}
-			
 			integratedMethodAnalysisValue.setBliaMethodScore(bliaMethodScore);
+			
+			System.out.println("" + methodSimiScore + " " + methodVsmScore);
 		}
 	}
 

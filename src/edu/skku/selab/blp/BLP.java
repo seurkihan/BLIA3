@@ -64,19 +64,19 @@ public class BLP {
 		blia.run();
 		
 		String algorithmDescription = "[BLIA] alpha: " + prop.getAlpha() +
-				", beta: " + prop.getBeta() + ", gamma: " + prop.getGamma() + ", pastDays: " + prop.getPastDays() +
+				", beta: " + prop.getBeta() + ", gamma: " + prop.getGamma() + ", delta: " + prop.getDelta() + ", pastDays: " + prop.getPastDays() +
 				", cadidateLimitRate: " + prop.getCandidateLimitRate();
 
 		// Evaluate the accuracy result of BLIA
 		Evaluator evaluator1 = new Evaluator(prop.getProductName(),
 				Evaluator.ALG_BLIA_FILE, algorithmDescription, prop.getAlpha(),
-				prop.getBeta(), prop.getGamma(), prop.getPastDays(),
+				prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getPastDays(),
 				prop.getCandidateLimitRate());
 		evaluator1.evaluate();
 		
 		Evaluator evaluator2 = new EvaluatorForMethodLevel(prop.getProductName(),
 				EvaluatorForMethodLevel.ALG_BLIA_METHOD, algorithmDescription, prop.getAlpha(),
-				prop.getBeta(), prop.getGamma(), prop.getPastDays(),
+				prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getPastDays(),
 				prop.getCandidateLimitRate());
 		evaluator2.evaluate();
 	}

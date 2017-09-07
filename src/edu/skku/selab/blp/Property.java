@@ -45,6 +45,16 @@ public class Property {
 	private double alpha;
 	private double beta;
 	private double gamma;
+	private double delta;
+	
+	public double getDelta() {
+		return delta;
+	}
+
+	public void setDelta(double delta) {
+		this.delta = delta;
+	}
+
 	private String separator = System.getProperty("file.separator");
 	private String lineSeparator = System.getProperty("line.separator");
 	private static Property p = null;
@@ -108,13 +118,13 @@ public class Property {
 	}
 	
 	public static void createInstance(String productName, String bugFilePath, String sourceCodeDir, String workDir,
-			double alpha, double beta, double gamma, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
+			double alpha, double beta, double gamma, double delta, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
 		if (null == p) {
 			p = new Property(productName, bugFilePath, sourceCodeDir, workDir,
-					alpha, beta, gamma, pastDays, repoDir, outputFile, candidateLimitRate);
+					alpha, beta, gamma, delta, pastDays, repoDir, outputFile, candidateLimitRate);
 		} else {
 			p.setValues(productName, bugFilePath, sourceCodeDir, workDir, alpha,
-					beta, gamma, pastDays, repoDir, outputFile, candidateLimitRate);
+					beta, gamma, delta, pastDays, repoDir, outputFile, candidateLimitRate);
 		}
 	}
 	
@@ -134,6 +144,7 @@ public class Property {
 		double alpha = Double.parseDouble(Property.readProperty(targetProduct + "_" + "ALPHA"));
 		double beta = Double.parseDouble(Property.readProperty(targetProduct + "_" + "BETA"));
 		double gamma = Double.parseDouble(Property.readProperty(targetProduct + "_" + "GAMMA"));
+		double delta = Double.parseDouble(Property.readProperty(targetProduct + "_" + "DELTA"));
 		int pastDays = Integer.parseInt(Property.readProperty(targetProduct + "_" + "PAST_DAYS"));
 		String repoDir = Property.readProperty(targetProduct + "_" + "REPO_DIR");
 		String bugFilePath = Property.readProperty(targetProduct + "_" + "BUG_REPO_FILE");
@@ -146,7 +157,7 @@ public class Property {
 		until.setTime(untilDate);
 		double candidateLimitRate = Double.parseDouble(Property.readProperty(targetProduct + "_" + "CANDIDATE_LIMIT_RATE"));
 
-		p.setValues(productName, sourceCodeDir, alpha, beta, gamma, pastDays, repoDir,
+		p.setValues(productName, sourceCodeDir, alpha, beta, gamma, delta, pastDays, repoDir,
 				bugFilePath, since, until, candidateLimitRate);
 		p.setRunLevel(Property.readProperty("RUN_LEVEL"));
 		
@@ -163,21 +174,21 @@ public class Property {
 	}
 	
 	private Property(String productName, String bugFilePath, String sourceCodeDir, String workDir,
-			double alpha, double beta, double gamma, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
+			double alpha, double beta, double gamma, double delta, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
 		setValues(productName, bugFilePath, sourceCodeDir, workDir, alpha,
-				beta, gamma, pastDays, repoDir, outputFile, candidateLimitRate);
+				beta, gamma, delta, pastDays, repoDir, outputFile, candidateLimitRate);
 	}
 
 	private void setValues(String productName, String bugFilePath,
 			String sourceCodeDir, String workDir, double alpha, double beta,
-			double gamma, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
+			double gamma, double delta, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
 		setCandidateLimitRate(candidateLimitRate);
 		setValues(productName, bugFilePath, sourceCodeDir, workDir, alpha,
-				beta, gamma, pastDays, repoDir, outputFile);
+				beta, gamma, delta, pastDays, repoDir, outputFile);
 	}
 	
 	private void setValues(String productName, String sourceCodeDir,
-			double alpha, double beta, double gamma, int pastDays, String repoDir,
+			double alpha, double beta, double gamma, double delta, int pastDays, String repoDir,
 			String bugFilePath, Calendar since, Calendar until, double candidateLimitRate) {
 		
 		setProductName(productName);
@@ -187,6 +198,7 @@ public class Property {
 		setAlpha(alpha);
 		setBeta(beta);
 		setGamma(gamma);
+		setDelta(delta);
 		setPastDays(pastDays);
 		setRepoDir(repoDir);
 		setBugFilePath(bugFilePath);
@@ -205,6 +217,7 @@ public class Property {
 		System.out.printf("Alpha: %f\n", getAlpha());
 		System.out.printf("Beta: %f\n", getBeta());
 		System.out.printf("Gamma: %f\n", getGamma());
+		System.out.printf("Delta: %f\n", getDelta());
 		System.out.printf("Past days: %s\n", getPastDays());
 		System.out.printf("Repo dir: %s\n", getRepoDir());
 		System.out.printf("Bug file path: %s\n", getBugFilePath());
@@ -215,7 +228,7 @@ public class Property {
 	}
 	
 	private void setValues(String productName, String bugFilePath,
-			String sourceCodeDir, String workDir, double alpha, double beta, double gamma,
+			String sourceCodeDir, String workDir, double alpha, double beta, double gamma, double delta,
 			int pastDays, String repoDir, String outputFile) {
 		setProductName(productName);
 		setBugFilePath(bugFilePath);
@@ -224,6 +237,7 @@ public class Property {
 		setAlpha(alpha);
 		setBeta(beta);
 		setGamma(gamma);
+		setDelta(delta);
 		setPastDays(pastDays);
 		setRepoDir(repoDir);
 	}
