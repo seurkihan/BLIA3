@@ -100,8 +100,8 @@ public class ExperimentResultDAO extends BaseDAO {
 				returnValue.setAlgorithmDescription(rs.getString("ALG_DESC"));
 				returnValue.setAlpha(rs.getDouble("ALPHA"));
 				returnValue.setBeta(rs.getDouble("BETA"));
-				returnValue.setBeta(rs.getDouble("GAMMA"));
-				returnValue.setBeta(rs.getDouble("DELTA"));
+				returnValue.setGamma(rs.getDouble("GAMMA"));
+				returnValue.setDelta(rs.getDouble("DELTA"));
 				returnValue.setPastDays(rs.getInt("PAST_DAYS"));
 				returnValue.setExperimentDate(rs.getTimestamp("EXP_DATE"));
 			}
