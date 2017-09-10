@@ -1,0 +1,36 @@
+77948 findMnemonic 20
+79107 setItems 2
+79481 onDragSash 11
+80276 layout 12
+80506 forceActive 1
+82346 CLabel 7
+80830 drawFocus 2
+87363 showMenu 12
+92017 createDIB 21
+88829 setColumnOrder 1
+93724 DragSource 7
+97651 setInsertMark 18
+97678 onDragSash 2
+100040 ImageList 4
+92013 CoolBar 1
+113971 createItem 29
+117574 getClipping 8
+103976 setValues 7
+92341 Tree 1
+104150 tableMouseDown 18
+81264 setTopIndex 1
+92241 setClipboardContent 3
+108591 kEventTextInputUpdateActiveInputArea 1
+108813 setStyle 15
+100095 checkURL 9
+111259 setInsertMark 18
+87460 addLineStyleListener 5
+92757 addCaretListener 2
+83408 isUnderlineSupported 14
+108236 setMaximum 5
+95410 drawString 1
+103863 setLayoutDeferred 1
+119192 CCombo 2
+Top1: 8, Top5: 17, Top10: 22, Top1Rate: 0.08163265306122448, Top5Rate: 0.17346938775510204, Top10Rate: 0.22448979591836735
+MRR: 0.1328379235979751
+MAP: 0.07870843888986093

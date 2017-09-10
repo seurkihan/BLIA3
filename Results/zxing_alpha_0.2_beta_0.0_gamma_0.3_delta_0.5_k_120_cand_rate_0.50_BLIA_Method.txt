@@ -1,0 +1,10 @@
+383 getScreenResolution 9
+412 extractPureBits 14
+511 sizeOfBlackWhiteBlackRunBothWays 4
+508 calculateThresholdForBlock 11
+492 rotateImage 1
+519 buildVersions 24
+524 findAlignmentInRegion 2
+Top1: 1, Top5: 3, Top10: 4, Top1Rate: 0.05, Top5Rate: 0.15, Top10Rate: 0.2
+MRR: 0.10325577200577203
+MAP: 0.10923414122427282

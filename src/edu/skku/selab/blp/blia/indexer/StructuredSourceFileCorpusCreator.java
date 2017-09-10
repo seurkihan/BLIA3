@@ -82,12 +82,11 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 			String str;
 			while((str = bur.readLine()) != null){
 				if(!str.split(",")[1].toLowerCase().equals("class_url")){
-					System.out.println(apiContents);
+					//여기 이상함!!!
 					String apiFile = str.split(",")[1].toLowerCase();
 					apiFile = apiFile.substring((apiFile.lastIndexOf("/")+1),apiFile.length()).replace(".html", ".java");
 					if(apiFile.contains(fileName.toLowerCase()) == fileName.toLowerCase().contains(fileName.toLowerCase()))
 							apiContents = str.split(",")[2].split(" ");
-					System.out.println(apiContents[0]);
 					}
 			}
 		} catch (IOException e) {

@@ -1,0 +1,21 @@
+383 com.google.zxing.client.android.camera.CameraConfigurationManager.java 3
+357 com.google.zxing.pdf417.decoder.DecodedBitStreamParser.java 10
+411 com.google.zxing.qrcode.QRCodeReader.java 29
+412 com.google.zxing.qrcode.QRCodeReader.java 21
+407 com.google.zxing.client.android.HelpActivity.java 4
+432 com.google.zxing.web.generator.client.TimeZoneList.java 6
+363 com.google.zxing.client.android.CaptureActivity.java 1
+475 com.google.zxing.client.android.Intents.java 11
+469 com.google.zxing.common.HybridBinarizer.java 8
+512 com.google.zxing.oned.ITFWriter.java 6
+511 com.google.zxing.qrcode.detector.Detector.java 8
+508 com.google.zxing.common.HybridBinarizer.java 2
+492 com.google.zxing.common.AbstractBlackBoxTestCase.java 5
+507 com.google.zxing.web.generator.client.ContactInfoGenerator.java 6
+519 com.google.zxing.qrcode.decoder.Version.java 13
+524 com.google.zxing.qrcode.detector.Detector.java 5
+548 com.google.zxing.client.rim.ZXingLMMainScreen.java 16
+376 com.google.zxing.client.android.CaptureActivity.java 12
+Top1: 1, Top5: 6, Top10: 12, Top1Rate: 0.05, Top5Rate: 0.3, Top10Rate: 0.6
+MRR: 0.18801753203692861
+MAP: 0.16512724149453045
