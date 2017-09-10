@@ -47,7 +47,6 @@ public class Property {
 	private double gamma;
 	private double delta;
 	private double eta;
-
 	
 	public double getEta() {
 		return eta;
@@ -74,7 +73,16 @@ public class Property {
 	private Calendar until = null;
 	private String repoDir;
 	private double candidateLimitRate = 1.0;
+	private int fileRankLimit = 10;
 	
+	public int getFileRankLimit() {
+		return fileRankLimit;
+	}
+
+	public void setFileRankLimit(int fileRankLimit) {
+		this.fileRankLimit = fileRankLimit;
+	}
+
 	private String runLevel;
 
 	public int getBugTermCount() {
@@ -128,13 +136,13 @@ public class Property {
 	}
 	
 	public static void createInstance(String productName, String bugFilePath, String sourceCodeDir, String workDir,
-			double alpha, double beta, double gamma, double delta, double eta, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
+			double alpha, double beta, double gamma, double delta, double eta, int pastDays, String repoDir, String outputFile, double candidateLimitRate, int fileRankLimit) {
 		if (null == p) {
 			p = new Property(productName, bugFilePath, sourceCodeDir, workDir,
-					alpha, beta, gamma, delta, eta, pastDays, repoDir, outputFile, candidateLimitRate);
+					alpha, beta, gamma, delta, eta, pastDays, repoDir, outputFile, candidateLimitRate, fileRankLimit);
 		} else {
 			p.setValues(productName, bugFilePath, sourceCodeDir, workDir, alpha,
-					beta, gamma, delta, eta, pastDays, repoDir, outputFile, candidateLimitRate);
+					beta, gamma, delta, eta, pastDays, repoDir, outputFile, candidateLimitRate, fileRankLimit);
 		}
 	}
 	
@@ -167,9 +175,10 @@ public class Property {
 		Calendar until = new GregorianCalendar();
 		until.setTime(untilDate);
 		double candidateLimitRate = Double.parseDouble(Property.readProperty(targetProduct + "_" + "CANDIDATE_LIMIT_RATE"));
+		int fileRankLimit = Integer.parseInt(Property.readProperty(targetProduct + "_" + "FILE_RANK_LIMIT"));
 
 		p.setValues(productName, sourceCodeDir, alpha, beta, gamma, delta, eta, pastDays, repoDir,
-				bugFilePath, since, until, candidateLimitRate);
+				bugFilePath, since, until, candidateLimitRate, fileRankLimit);
 		p.setRunLevel(Property.readProperty("RUN_LEVEL"));
 		
 		return p;
@@ -185,22 +194,23 @@ public class Property {
 	}
 	
 	private Property(String productName, String bugFilePath, String sourceCodeDir, String workDir,
-			double alpha, double beta, double gamma, double delta, double eta, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
+			double alpha, double beta, double gamma, double delta, double eta, int pastDays, String repoDir, String outputFile, double candidateLimitRate, int fileRankLimit) {
 		setValues(productName, bugFilePath, sourceCodeDir, workDir, alpha,
-				beta, gamma, delta, eta, pastDays, repoDir, outputFile, candidateLimitRate);
+				beta, gamma, delta, eta, pastDays, repoDir, outputFile, candidateLimitRate, fileRankLimit);
 	}
 
 	private void setValues(String productName, String bugFilePath,
 			String sourceCodeDir, String workDir, double alpha, double beta,
-			double gamma, double delta, double eta, int pastDays, String repoDir, String outputFile, double candidateLimitRate) {
+			double gamma, double delta, double eta, int pastDays, String repoDir, String outputFile, double candidateLimitRate, int fileRankLimit) {
 		setCandidateLimitRate(candidateLimitRate);
+		setFileRankLimit(fileRankLimit);
 		setValues(productName, bugFilePath, sourceCodeDir, workDir, alpha,
 				beta, gamma, delta, eta, pastDays, repoDir, outputFile);
 	}
 	
 	private void setValues(String productName, String sourceCodeDir,
 			double alpha, double beta, double gamma, double delta, double eta, int pastDays, String repoDir,
-			String bugFilePath, Calendar since, Calendar until, double candidateLimitRate) {
+			String bugFilePath, Calendar since, Calendar until, double candidateLimitRate, int fileRankLimit) {
 		
 		setProductName(productName);
 		setSourceCodeDir(sourceCodeDir)
@@ -217,6 +227,7 @@ public class Property {
 		setSince(since);
 		setUntil(until);
 		setCandidateLimitRate(candidateLimitRate);
+		setFileRankLimit(fileRankLimit);
 	}
 	
 	public void printValues() {
@@ -238,6 +249,7 @@ public class Property {
 		System.out.printf("Since: %s\n", dateFormat.format(getSince().getTime()));
 		System.out.printf("Until: %s\n", dateFormat.format(getUntil().getTime()));
 		System.out.printf("candidateLimitRate: %f\n", getCandidateLimitRate());
+		System.out.printf("fileRankLimit: %s\n", getFileRankLimit());
 	}
 	
 	private void setValues(String productName, String bugFilePath,

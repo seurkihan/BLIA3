@@ -33,20 +33,21 @@ public class ExperimentResult {
 	private double eta;
 
 
-	public double getEta() {
-		return eta;
-	}
-
-
-
-	public void setEta(double eta) {
-		this.eta = eta;
-	}
-
 	private int pastDays;
 	private Date experimentDate;
 	private double candidateRate;
+	private int fileRankLimit;
 	
+	public int getFileRankLimit() {
+		return fileRankLimit;
+	}
+
+	public void setFileRankLimit(int fileRankLimit) {
+		this.fileRankLimit = fileRankLimit;
+	}
+
+
+
 	/**
 	 * 
 	 */
@@ -74,6 +75,18 @@ public class ExperimentResult {
 
 
 	
+	public double getEta() {
+		return eta;
+	}
+
+
+
+	public void setEta(double eta) {
+		this.eta = eta;
+	}
+
+
+
 	/**
 	 * @return the top1
 	 */

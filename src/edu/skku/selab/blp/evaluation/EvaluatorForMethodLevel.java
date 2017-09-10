@@ -47,9 +47,10 @@ public class EvaluatorForMethodLevel extends Evaluator {
 	 * 
 	 */
 	public EvaluatorForMethodLevel(String productName, String algorithmName, String algorithmDescription,
-			double alpha, double beta, double gamma, double delta, double eta, int pastDays, double candidateRate) {
+			double alpha, double beta, double gamma, double delta, double eta, int pastDays, double candidateRate, int fileRankLimit) {
 		this(productName, algorithmName, algorithmDescription, alpha, beta, gamma, delta, eta, pastDays);
 		experimentResult.setCandidateRate(candidateRate);
+		experimentResult.setFileRankLimit(fileRankLimit);
 	}
 	
 	public void evaluate() throws Exception {
