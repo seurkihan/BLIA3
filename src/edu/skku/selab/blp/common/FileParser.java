@@ -43,12 +43,14 @@ public class FileParser {
 	private String allInnerMethodNames;
 	private String allVariableNames;
 	private String allComments;
+	private String allApis;
 	private ArrayList<Method> allMethodList;
 	
 	public static final int CLASS_PART = 1;
 	public static final int METHOD_PART = 2;
 	public static final int VARIABLE_PART = 3;
 	public static final int COMMENT_PART = 4;
+	public static final int API_PART = 5;
 	
 	public FileParser(File file) {
 		allClassNames = null;
@@ -56,6 +58,7 @@ public class FileParser {
 		allInnerMethodNames = null;
 		allVariableNames = null;
 		allComments = null;
+		allApis = null;
 		allMethodList = null;
 		
 		compilationUnit = null;

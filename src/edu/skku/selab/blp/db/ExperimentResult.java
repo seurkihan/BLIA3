@@ -30,7 +30,18 @@ public class ExperimentResult {
 	private double beta;
 	private double gamma;
 	private double delta;
+	private double eta;
 
+
+	public double getEta() {
+		return eta;
+	}
+
+
+
+	public void setEta(double eta) {
+		this.eta = eta;
+	}
 
 	private int pastDays;
 	private Date experimentDate;
@@ -55,6 +66,7 @@ public class ExperimentResult {
 		beta = 0.0;
 		gamma = 0.0;
 		delta = 0.0;
+		eta = 0.0;
 		pastDays = 0;
 		setExperimentDate(new Date(System.currentTimeMillis()));
 		candidateRate = 0;

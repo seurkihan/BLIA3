@@ -380,7 +380,7 @@ public class SourceFileDAO extends BaseDAO {
 	}
 
 	public int insertCorpusSet(int sourceFileID, String version, SourceFileCorpus corpus, int totalCorpusCount, double lengthScore) {
-		String sql = "INSERT INTO SF_VER_INFO (SF_ID, VER, COR, CLS_COR, MTH_COR, VAR_COR, CMT_COR, TOT_CNT, LEN_SCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO SF_VER_INFO (SF_ID, VER, COR, CLS_COR, MTH_COR, VAR_COR, CMT_COR, API_COR, TOT_CNT, LEN_SCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
@@ -392,8 +392,9 @@ public class SourceFileDAO extends BaseDAO {
 			ps.setString(5, corpus.getMethodPart());
 			ps.setString(6, corpus.getVariablePart());
 			ps.setString(7, corpus.getCommentPart());
-			ps.setInt(8, totalCorpusCount);
-			ps.setDouble(9, lengthScore);
+			ps.setString(8, corpus.getApiPart());
+			ps.setInt(9, totalCorpusCount);
+			ps.setDouble(10, lengthScore);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {

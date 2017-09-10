@@ -7,7 +7,12 @@
  */
 package edu.skku.selab.blp.blia.indexer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -25,7 +30,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
  *
  */
 public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
-	public SourceFileCorpus create(File file) {
+	public SourceFileCorpus create(File file) {		
 		FileParser parser = new FileParser(file);
 		String fileName = parser.getPackageName();
 		if (fileName.trim().equals("")) {
@@ -58,8 +63,37 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		String commentContents[] = parser.getStructuredContent(FileParser.COMMENT_PART);
 		String commentPart = stemContent(commentContents);
 		
-		String sourceCodeContent = classPart + " " + methodPart + " " + variablePart + " " + commentPart;
+		String apiContents[] = parser.getStructuredContent(FileParser.API_PART);
+		String apiPart = stemContent(apiContents);
+		
+		String sourceCodeContent = classPart + " " + methodPart + " " + variablePart + " " + commentPart + " " + apiPart;
 		ArrayList<Method> methodList =  parser.getAllMethodList();
+		
+		
+		Property property = Property.getInstance();
+		String product = property.getProductName();
+		File f = new File("./db/" +product+ "_api.csv");
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(f);
+			@SuppressWarnings("resource")
+			BufferedReader bur = new BufferedReader(new InputStreamReader(fis));
+			
+			String str;
+			while((str = bur.readLine()) != null){
+				if(!str.split(",")[1].toLowerCase().equals("class_url")){
+					System.out.println(apiContents);
+					String apiFile = str.split(",")[1].toLowerCase();
+					apiFile = apiFile.substring((apiFile.lastIndexOf("/")+1),apiFile.length()).replace(".html", ".java");
+					if(apiFile.contains(fileName.toLowerCase()) == fileName.toLowerCase().contains(fileName.toLowerCase()))
+							apiContents = str.split(",")[2].split(" ");
+					System.out.println(apiContents[0]);
+					}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		SourceFileCorpus corpus = new SourceFileCorpus();
 		corpus.setJavaFilePath(file.getAbsolutePath());
@@ -70,9 +104,12 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		corpus.setMethodPart(methodPart);
 		corpus.setVariablePart(variablePart);
 		corpus.setCommentPart(commentPart);
-		corpus.setMethodList(methodList);
+		corpus.setApiPart(apiPart);
+		corpus.setMethodList(methodList);		
+
 		return corpus;
-    }
+	}
+	
 	
 	////////////////////////////////////////////////////////////////////	
 	/* (non-Javadoc)

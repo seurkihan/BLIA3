@@ -22,6 +22,8 @@ public class SourceFileCorpus {
 	private String methodPart;
 	private String variablePart;
 	private String commentPart;
+	private String apiPart;
+
 	private ArrayList<String> importedClasses;
 	private ArrayList<Method> methodList;
 	
@@ -39,6 +41,7 @@ public class SourceFileCorpus {
 		methodPart = "";
 		variablePart = "";
 		commentPart = "";
+		apiPart = "";
 		importedClasses = null;
 		setMethodList(null);
 		
@@ -48,6 +51,14 @@ public class SourceFileCorpus {
 		commentCorpusNorm = 0;
 	}
 
+	public String getApiPart() {
+		return apiPart;
+	}
+
+	public void setApiPart(String apiPart) {
+		this.apiPart = apiPart;
+	}
+	
 	public String getJavaFileFullClassName() {
 		return javaFileFullClassName;
 	}
@@ -66,7 +77,7 @@ public class SourceFileCorpus {
 
 	public String getContent() {
 //		return content;
-		String content = getClassPart() + " " + getMethodPart() + " " + getVariablePart() + " " + getCommentPart();
+		String content = getApiPart() + " " + getClassPart() + " " + getMethodPart() + " " + getVariablePart() + " " + getCommentPart();
 		return content.trim();
 	}
 
