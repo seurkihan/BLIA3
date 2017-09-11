@@ -62,11 +62,6 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 
 		String commentContents[] = parser.getStructuredContent(FileParser.COMMENT_PART);
 		String commentPart = stemContent(commentContents);
-		
-		String apiContents[] = parser.getStructuredContent(FileParser.API_PART);
-		String apiPart = stemContent(apiContents);
-		
-		String sourceCodeContent = classPart + " " + methodPart + " " + variablePart + " " + commentPart + " " + apiPart;
 		ArrayList<Method> methodList =  parser.getAllMethodList();
 		
 		
@@ -74,25 +69,33 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		String product = property.getProductName();
 		File f = new File("./db/" +product+ "_api.csv");
 		FileInputStream fis;
+		String apiCorpus="";
 		try {
 			fis = new FileInputStream(f);
 			@SuppressWarnings("resource")
 			BufferedReader bur = new BufferedReader(new InputStreamReader(fis));
 			
 			String str;
-			while((str = bur.readLine()) != null){
-				if(!str.split(",")[1].toLowerCase().equals("class_url")){
+			while((str = bur.readLine()) != null){				
+				if(!str.split(",")[1].toLowerCase().equals("class_url")){					
 					//여기 이상함!!!
 					String apiFile = str.split(",")[1].toLowerCase();
 					apiFile = apiFile.substring((apiFile.lastIndexOf("/")+1),apiFile.length()).replace(".html", ".java");
-					if(apiFile.contains(fileName.toLowerCase()) == fileName.toLowerCase().contains(fileName.toLowerCase()))
-							apiContents = str.split(",")[2].split(" ");
+//					System.out.println(apiFile.toLowerCase()+" "+file.getName());
+					if(apiFile.toLowerCase().contains(file.getName().toLowerCase()) || file.getName().toLowerCase().contains(apiFile.toLowerCase()))
+							apiCorpus = str.split(",")[2];
 					}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		String apiContents[] = apiCorpus.split(" ");
+		String apiPart = stemContent(apiContents);
+		
+		String sourceCodeContent = classPart + " " + methodPart + " " + variablePart + " " + commentPart + " " + apiPart;
+		
 		
 		SourceFileCorpus corpus = new SourceFileCorpus();
 		corpus.setJavaFilePath(file.getAbsolutePath());

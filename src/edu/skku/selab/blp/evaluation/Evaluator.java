@@ -285,7 +285,7 @@ public class Evaluator {
     protected String getOutputFileName() {
 		String outputFileName = String.format("./Results/%s_alpha_%.1f_beta_%.1f_gamma_%.1f_delta_%.1f_eta_%.1f_k_%d",
 				experimentResult.getProductName(), experimentResult.getAlpha(), experimentResult.getBeta(),
-				experimentResult.getGamma(), experimentResult.getDelta(), experimentResult.getPastDays()); 
+				experimentResult.getGamma(), experimentResult.getDelta(), experimentResult.getEta(), experimentResult.getPastDays()); 
 		if (experimentResult.getCandidateRate() > 0.0) {
 			outputFileName += String.format("_cand_rate_%.2f", experimentResult.getCandidateRate()); 			
 		}
