@@ -32,6 +32,7 @@ public class SourceFileCorpus {
 	private double methodCorpusNorm;
 	private double variableCorpusNorm;
 	private double commentCorpusNorm;
+	private double apiCorpusNorm;
 
 	public SourceFileCorpus() {
 		javaFileFullClassName = "";
@@ -49,6 +50,16 @@ public class SourceFileCorpus {
 		methodCorpusNorm = 0;
 		variableCorpusNorm = 0;
 		commentCorpusNorm = 0;
+		apiCorpusNorm = 0;
+	}
+
+
+	public double getApiCorpusNorm() {
+		return apiCorpusNorm;
+	}
+
+	public void setApiCorpusNorm(double apiCorpusNorm) {
+		this.apiCorpusNorm = apiCorpusNorm;
 	}
 
 	public String getApiPart() {

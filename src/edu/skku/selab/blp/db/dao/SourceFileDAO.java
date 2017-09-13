@@ -353,7 +353,7 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int insertStructuredCorpusSet(int sourceFileID, String version, SourceFileCorpus corpus, int totalCorpusCount, double lengthScore) {
-		String sql = "INSERT INTO SF_VER_INFO (SF_ID, VER, CLS_COR, MTH_COR, VAR_COR, CMT_COR, TOT_CNT, LEN_SCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO SF_VER_INFO (SF_ID, VER, CLS_COR, MTH_COR, VAR_COR, CMT_COR, API_COR, TOT_CNT, LEN_SCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		int returnValue = INVALID;
 		
 		try {
@@ -364,8 +364,9 @@ public class SourceFileDAO extends BaseDAO {
 			ps.setString(4, corpus.getMethodPart());
 			ps.setString(5, corpus.getVariablePart());
 			ps.setString(6, corpus.getCommentPart());
-			ps.setInt(7, totalCorpusCount);
-			ps.setDouble(8, lengthScore);
+			ps.setString(7,  corpus.getApiPart());
+			ps.setInt(8, totalCorpusCount);
+			ps.setDouble(9, lengthScore);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {
@@ -432,7 +433,7 @@ public class SourceFileDAO extends BaseDAO {
 	public HashMap<String, SourceFileCorpus> getCorpusMap(String version) {
 		HashMap<String, SourceFileCorpus> corpusSets = new HashMap<String, SourceFileCorpus>();
 		
-		String sql = "SELECT A.SF_NAME, B.COR, B.CLS_COR, B.MTH_COR, B.VAR_COR, B.CMT_COR " +
+		String sql = "SELECT A.SF_NAME, B.COR, B.CLS_COR, B.MTH_COR, B.VAR_COR, B.CMT_COR, B.API_COR " +
 					"FROM SF_INFO A, SF_VER_INFO B " +
 					"WHERE A.SF_ID = B.SF_ID AND B.VER = ?";
 		
@@ -448,6 +449,7 @@ public class SourceFileDAO extends BaseDAO {
 				corpus.setMethodPart(rs.getString("MTH_COR"));
 				corpus.setVariablePart(rs.getString("VAR_COR"));
 				corpus.setCommentPart(rs.getString("CMT_COR"));
+				corpus.setApiPart(rs.getString("API_COR"));
 				corpusSets.put(rs.getString("SF_NAME"), corpus);
 			}
 		} catch (Exception e) {
@@ -463,7 +465,7 @@ public class SourceFileDAO extends BaseDAO {
 	 * @return SourceFileCorpus		Source file corpus
 	 */
 	public SourceFileCorpus getCorpus(int sourceFileVersionID) {
-		String sql = "SELECT COR, CLS_COR, MTH_COR, VAR_COR, CMT_COR, COR_NORM, CLS_COR_NORM, MTH_COR_NORM, VAR_COR_NORM, CMT_COR_NORM  " +
+		String sql = "SELECT COR, CLS_COR, MTH_COR, VAR_COR, CMT_COR, COR_NORM, CLS_COR_NORM, MTH_COR_NORM, VAR_COR_NORM, CMT_COR_NORM, API_COR_NORM  " +
 					"FROM SF_VER_INFO B " +
 					"WHERE SF_VER_ID = ?";
 		
@@ -485,6 +487,7 @@ public class SourceFileDAO extends BaseDAO {
 				corpus.setMethodCorpusNorm(rs.getDouble("MTH_COR_NORM"));
 				corpus.setVariableCorpusNorm(rs.getDouble("VAR_COR_NORM"));
 				corpus.setCommentCorpusNorm(rs.getDouble("CMT_COR_NORM"));
+				corpus.setApiCorpusNorm(rs.getDouble("API_COR_NORM"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -521,7 +524,7 @@ public class SourceFileDAO extends BaseDAO {
 	 * @return SourceFileCorpus		Source file corpus
 	 */
 	public SourceFileCorpus getNormValues(int sourceFileVersionID) {
-		String sql = "SELECT COR_NORM, CLS_COR_NORM, MTH_COR_NORM, VAR_COR_NORM, CMT_COR_NORM " +
+		String sql = "SELECT COR_NORM, CLS_COR_NORM, MTH_COR_NORM, VAR_COR_NORM, CMT_COR_NORM, API_COR_NORM " +
 					"FROM SF_VER_INFO B " +
 					"WHERE SF_VER_ID = ?";
 		
@@ -538,6 +541,7 @@ public class SourceFileDAO extends BaseDAO {
 				corpus.setMethodCorpusNorm(rs.getDouble("MTH_COR_NORM"));
 				corpus.setVariableCorpusNorm(rs.getDouble("VAR_COR_NORM"));
 				corpus.setCommentCorpusNorm(rs.getDouble("CMT_COR_NORM"));
+				corpus.setApiCorpusNorm(rs.getDouble("API_COR_NORM"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -649,8 +653,8 @@ public class SourceFileDAO extends BaseDAO {
 	}
 	
 	public int updateNormValues(String fileName, String version,
-			double corpusNorm, double classNorm, double methodNorm, double variableNorm, double commentNorm) {
-		String sql = "UPDATE SF_VER_INFO SET COR_NORM = ?, CLS_COR_NORM = ?, MTH_COR_NORM = ?, VAR_COR_NORM = ?, CMT_COR_NORM = ? " +
+			double corpusNorm, double classNorm, double methodNorm, double variableNorm, double commentNorm, double apiNorm) {
+		String sql = "UPDATE SF_VER_INFO SET COR_NORM = ?, CLS_COR_NORM = ?, MTH_COR_NORM = ?, VAR_COR_NORM = ?, CMT_COR_NORM = ?, API_COR_NORM = ? " +
 				"WHERE SF_ID IN (SELECT A.SF_ID FROM SF_INFO A, SF_VER_INFO B WHERE A.SF_ID = B.SF_ID " +
 				"AND A.SF_NAME = ? AND B.VER = ?)";
 		int returnValue = INVALID;
@@ -662,9 +666,10 @@ public class SourceFileDAO extends BaseDAO {
 			ps.setDouble(3, methodNorm);
 			ps.setDouble(4, variableNorm);
 			ps.setDouble(5, commentNorm);
+			ps.setDouble(6, apiNorm);
 			
-			ps.setString(6, fileName);
-			ps.setString(7, version);
+			ps.setString(7, fileName);
+			ps.setString(8, version);
 			
 			returnValue = ps.executeUpdate();
 		} catch (Exception e) {

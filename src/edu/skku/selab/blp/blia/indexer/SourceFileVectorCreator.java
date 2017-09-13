@@ -291,12 +291,14 @@ public class SourceFileVectorCreator {
 				double methodCorpusNorm = 0.0D;
 				double variableNorm = 0.0D;
 				double commentNorm = 0.0D;
+				double apiNorm = 0.0D;
 				
 				SourceFileCorpus sourceFileCorpus = sourceFileCorpusMap.get(fileName);
 				HashSet<String> classTermSet = CorpusToSet(sourceFileCorpus.getClassPart());
 				HashSet<String> methodTermSet = CorpusToSet(sourceFileCorpus.getMethodPart());
 				HashSet<String> variableTermSet = CorpusToSet(sourceFileCorpus.getVariablePart());
-				HashSet<String> commentTermSet = CorpusToSet(sourceFileCorpus.getCommentPart());				
+				HashSet<String> commentTermSet = CorpusToSet(sourceFileCorpus.getCommentPart());
+				HashSet<String> apiTermSet = CorpusToSet(sourceFileCorpus.getApiPart());
 				
 				Iterator<String> sourceFileTermIter = sourceFileTermMap.keySet().iterator();
 				while (sourceFileTermIter.hasNext()) {
@@ -326,6 +328,10 @@ public class SourceFileVectorCreator {
 					if (commentTermSet.contains(term)) {
 						commentNorm += termWeightValueSquare;
 					}
+					
+					if (apiTermSet.contains(term)) {
+						apiNorm += termWeightValueSquare;
+					}
 
 					termWeight.setTf(tf);
 					termWeight.setIdf(idf);
@@ -336,10 +342,11 @@ public class SourceFileVectorCreator {
 				methodCorpusNorm = Math.sqrt(methodCorpusNorm);
 				variableNorm = Math.sqrt(variableNorm);
 				commentNorm = Math.sqrt(commentNorm);
+				apiNorm = Math.sqrt(apiNorm);
 //				System.out.printf(">>>> corpusNorm: %f, classCorpusNorm: %f, methodCorpusNorm: %f, variableNorm: %f, commentNorm: %f\n",
 //						corpusNorm, classCorpusNorm, methodCorpusNorm, variableNorm, variableNorm);
 				
-				sourceFileDAO.updateNormValues(fileName, version, corpusNorm, classCorpusNorm, methodCorpusNorm, variableNorm, commentNorm);
+				sourceFileDAO.updateNormValues(fileName, version, corpusNorm, classCorpusNorm, methodCorpusNorm, variableNorm, commentNorm, apiNorm);
         }
     }
 

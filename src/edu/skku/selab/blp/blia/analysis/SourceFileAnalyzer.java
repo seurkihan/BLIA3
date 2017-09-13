@@ -183,17 +183,19 @@ public class SourceFileAnalyzer {
     			HashMap<String, AnalysisValue> sourceFileTermMap = sourceFileAllTermMaps.get(sourceFileVersionID);
     			
     			SourceFileCorpus corpus = sourceFileCorpusMap.get(sourceFileVersionID);
-    			String[] sourceFileCorpusSet = new String[4];
+    			String[] sourceFileCorpusSet = new String[5];
     			sourceFileCorpusSet[0] = corpus.getClassPart();
     			sourceFileCorpusSet[1] = corpus.getMethodPart();
     			sourceFileCorpusSet[2] = corpus.getVariablePart();
     			sourceFileCorpusSet[3] = corpus.getCommentPart();
-    			double[] sourceFileNormSet = new double[4];
+    			sourceFileCorpusSet[4] = corpus.getApiPart();
+    			double[] sourceFileNormSet = new double[5];
     			sourceFileNormSet[0] = corpus.getClassCorpusNorm();
     			sourceFileNormSet[1] = corpus.getMethodCorpusNorm();
     			sourceFileNormSet[2] = corpus.getVariableCorpusNorm();
     			sourceFileNormSet[3] = corpus.getCommentCorpusNorm();
-    			
+    			sourceFileNormSet[4] = corpus.getApiCorpusNorm();
+    					
     			BugCorpus bugCorpus = bug.getCorpus();
     			String[] bugCorpusParts = new String[2];
     			bugCorpusParts[0] = bugCorpus.getSummaryPart();
@@ -252,6 +254,10 @@ public class SourceFileAnalyzer {
     						double weight = 1;
     						if (i == 3) {
     							weight = 0.5;	// weight 0.3~0.5 is best for AspectJ
+    						}
+    						Property prop = Property.getInstance();
+    						if (i == 4) {
+    							weight = prop.getEta();
     						}
     						vsmScore += (cosineSimilarityScore / (sourceFileNormSet[i] * bugNormSet[j])) * weight;
     					}

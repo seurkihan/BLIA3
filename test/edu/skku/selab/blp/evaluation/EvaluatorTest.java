@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
+import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.dao.DbUtil;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.evaluation.Evaluator;
@@ -220,11 +221,16 @@ public class EvaluatorTest {
 		long startTime = System.currentTimeMillis();
 		System.out.printf("[STARTED] BLIA Evaluation repeatedly.\n");
 
+//		IntegratedAnalysisValue integratedAnalysisValue = null;
+//		@SuppressWarnings("null")
+//		double vsmScore = integratedAnalysisValue.getVsmScore();
+		
 //		for (double alpha = 0.4; alpha <= 0.4; alpha += 0.1) {
 		for (double alpha = 0.0; alpha <= 0.9; alpha += 0.1) {
 			for (double beta = 0.0; beta <= 0.9; beta += 0.1) {
 				for (double eta = 0.0; eta <= 0.9; eta += 0.1) {
 //			for (double beta = 0.0; beta <= 0.0; beta += 0.1) {
+//				System.out.println("eta: " + eta + ", vsm_score: "+vsmScore);
 				prop.setAlpha(alpha);
 				prop.setBeta(beta);
 				prop.setEta(eta);
@@ -252,6 +258,7 @@ public class EvaluatorTest {
 								algorithmDescription, prop.getAlpha(), prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getEta(), prop.getPastDays(), prop.getCandidateLimitRate(), prop.getFileRankLimit());
 						evaluatorForMethodLevel.evaluate();
 					}
+//					System.out.println("eta: " + eta + ", vsm_score: "+vsmScore);
 				}
 			}
 		}
