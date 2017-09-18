@@ -39,7 +39,7 @@ public class EvaluatorForMethodLevel extends Evaluator {
 	 */
 	public EvaluatorForMethodLevel(String productName, String algorithmName, String algorithmDescription,
 			double alpha, double beta, double gamma, double delta, double eta, int pastDays) {
-		super(productName, algorithmName, algorithmDescription, alpha, beta, gamma, eta, delta, pastDays);
+		super(productName, algorithmName, algorithmDescription, alpha, beta, gamma, delta, eta, pastDays);
 		realFixedMethodsMap = null;
 	}
 	

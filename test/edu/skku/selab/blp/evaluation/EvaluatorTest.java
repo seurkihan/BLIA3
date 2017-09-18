@@ -21,6 +21,7 @@ import edu.skku.selab.blp.db.dao.SourceFileDAO;
 import edu.skku.selab.blp.evaluation.Evaluator;
 import edu.skku.selab.blp.utils.Util;
 
+
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
  *
@@ -202,9 +203,13 @@ public class EvaluatorTest {
 		System.out.printf("[DONE] BLIA Evaluation repeatedly(Total %s sec)\n", Util.getElapsedTimeSting(startTime));
 	}
 	
-	//ADD ETA
 	@Test
-	public void verifyEvaluateBLIAWithChangingAlphaAndBetaAndEta() throws Exception {
+	public void verifyEvaluateBLIAWithChangingEta() throws Exception {
+		
+		for (double eta = 0.0; eta <= 0.9; eta += 0.1){
+			PropertiesWriter pw = new PropertiesWriter();
+			pw.writePropertyFile(eta);
+		
 		Property prop = Property.loadInstance();
 		
 		// [NOTE!!!] Before this method running, verifyEvaluateBLIAOnce() should be called to create indexing DB
@@ -221,53 +226,35 @@ public class EvaluatorTest {
 		long startTime = System.currentTimeMillis();
 		System.out.printf("[STARTED] BLIA Evaluation repeatedly.\n");
 
-//		IntegratedAnalysisValue integratedAnalysisValue = null;
-//		@SuppressWarnings("null")
-//		double vsmScore = integratedAnalysisValue.getVsmScore();
-		
-//		for (double alpha = 0.4; alpha <= 0.4; alpha += 0.1) {
-		for (double alpha = 0.0; alpha <= 0.9; alpha += 0.1) {
-			for (double beta = 0.0; beta <= 0.9; beta += 0.1) {
-				for (double eta = 0.0; eta <= 0.9; eta += 0.1) {
-//			for (double beta = 0.0; beta <= 0.0; beta += 0.1) {
-//				System.out.println("eta: " + eta + ", vsm_score: "+vsmScore);
-				prop.setAlpha(alpha);
-				prop.setBeta(beta);
-				prop.setEta(eta);
-				runBLIA(useStrucrutedInfo, prepareAnalysisData, preAnalyze, analyze, includeStackTrace, includeMethodAnalyze);
+		runBLIA(useStrucrutedInfo, prepareAnalysisData, preAnalyze, analyze, includeStackTrace, includeMethodAnalyze);
 
-				if (analyze) {
-					String algorithmDescription = "[BLIA] alpha: " + prop.getAlpha() +
-							", beta: " + prop.getBeta() + ", gamma: " + prop.getGamma() + ", delta: " + prop.getDelta() + ", eta: " + prop.getEta() + ", pastDays: " + prop.getPastDays();
-					if (useStrucrutedInfo) {
-						algorithmDescription += " with structured info";
-					}
-					if (!includeStackTrace) {
-						algorithmDescription += " without Stack-Trace analysis";
-					}
-					if (includeNewBugComments) {
-						algorithmDescription += " with new bug's comments";
-					}
-					
-					Evaluator evaluator = new Evaluator(prop.getProductName(), Evaluator.ALG_BLIA_FILE, algorithmDescription,
-							prop.getAlpha(), prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getEta(), prop.getPastDays(), prop.getCandidateLimitRate(), prop.getFileRankLimit());
-					evaluator.evaluate();				
+		if (analyze) {
+			String algorithmDescription = "[BLIA] alpha: " + prop.getAlpha() +
+					", beta: " + prop.getBeta() + ", gamma: " + prop.getGamma() + ", delta: " + prop.getDelta() + ", eta: " + prop.getEta() + ", pastDays: " + prop.getPastDays();
+			if (useStrucrutedInfo) {
+				algorithmDescription += " with structured info";
+			}
+			if (!includeStackTrace) {
+				algorithmDescription += " without Stack-Trace analysis";
+			}
+			if (includeNewBugComments) {
+				algorithmDescription += " with new bug's comments";
+			}
+			
+			Evaluator evaluator = new Evaluator(prop.getProductName(), Evaluator.ALG_BLIA_FILE, algorithmDescription,
+					prop.getAlpha(), prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getEta(), prop.getPastDays(), prop.getCandidateLimitRate(), prop.getFileRankLimit());
+			evaluator.evaluate();				
 
-					if (includeMethodAnalyze) {
-						EvaluatorForMethodLevel evaluatorForMethodLevel = new EvaluatorForMethodLevel(prop.getProductName(), EvaluatorForMethodLevel.ALG_BLIA_METHOD,
-								algorithmDescription, prop.getAlpha(), prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getEta(), prop.getPastDays(), prop.getCandidateLimitRate(), prop.getFileRankLimit());
-						evaluatorForMethodLevel.evaluate();
-					}
-//					System.out.println("eta: " + eta + ", vsm_score: "+vsmScore);
-				}
+			if (includeMethodAnalyze) {
+				EvaluatorForMethodLevel evaluatorForMethodLevel = new EvaluatorForMethodLevel(prop.getProductName(), EvaluatorForMethodLevel.ALG_BLIA_METHOD,
+						algorithmDescription, prop.getAlpha(), prop.getBeta(), prop.getGamma(), prop.getDelta(), prop.getEta(), prop.getPastDays(), prop.getCandidateLimitRate(), prop.getFileRankLimit());
+				evaluatorForMethodLevel.evaluate();
 			}
 		}
-		
 		System.out.printf("[DONE] BLIA Evaluation repeatedly(Total %s sec)\n", Util.getElapsedTimeSting(startTime));
-		}
-	}
-	
-	
+	}		
+}
+
 	@Test
 	public void verifyEvaluateBLIAWithChangingPastDays() throws Exception {
 		Property prop = Property.loadInstance();

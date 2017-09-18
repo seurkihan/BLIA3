@@ -414,7 +414,7 @@ public class BLIA {
 			}
 			integratedMethodAnalysisValue.setBliaMethodScore(bliaMethodScore);
 			
-			System.out.println("" + methodSimiScore + " " + methodVsmScore);
+//			System.out.println("" + methodSimiScore + " " + methodVsmScore);
 		}
 	}
 
