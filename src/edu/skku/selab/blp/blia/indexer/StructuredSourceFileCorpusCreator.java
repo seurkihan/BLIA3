@@ -24,6 +24,7 @@ import edu.skku.selab.blp.common.Method;
 import edu.skku.selab.blp.db.dao.BaseDAO;
 import edu.skku.selab.blp.db.dao.MethodDAO;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
+import edu.skku.selab.blp.utils.Splitter;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
@@ -78,7 +79,7 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 			String str;
 			while((str = bur.readLine()) != null){				
 				if(!str.split(",")[1].toLowerCase().equals("class_url")){					
-					//여기 이상함!!!
+					//�뿬湲� �씠�긽�븿!!!
 					String apiFile = str.split(",")[1].toLowerCase();
 					apiFile = apiFile.substring((apiFile.lastIndexOf("/")+1),apiFile.length()).replace(".html", ".java");
 //					System.out.println(apiFile.toLowerCase()+" "+file.getName());
@@ -91,7 +92,7 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 			e.printStackTrace();
 		}
 
-		String apiContents[] = apiCorpus.split(" ");
+		String apiContents[] = Splitter.splitSourceCode(apiCorpus);
 		String apiPart = stemContent(apiContents);
 		
 		String sourceCodeContent = classPart + " " + methodPart + " " + variablePart + " " + commentPart + " " + apiPart;

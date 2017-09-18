@@ -206,6 +206,8 @@ public class SourceFileAnalyzer {
     					
     			for (int i = 0; i < sourceFileCorpusSet.length; i++) {
     				for (int j = 0; j < bugCorpusParts.length; j++) {
+//    					if(i==4)
+//    						System.out.println(sourceFileCorpusSet[i]);
     					if (sourceFileCorpusSet[i] == "" || bugCorpusParts[j] == "") {
     						continue;
     					}
@@ -258,6 +260,7 @@ public class SourceFileAnalyzer {
     						Property prop = Property.getInstance();
     						if (i == 4) {
     							weight = prop.getEta();
+//        						System.out.println(weight);
     						}
     						vsmScore += (cosineSimilarityScore / (sourceFileNormSet[i] * bugNormSet[j])) * weight;
     					}
