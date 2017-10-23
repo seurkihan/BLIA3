@@ -289,6 +289,9 @@ public class Evaluator {
 		if (experimentResult.getCandidateRate() > 0.0) {
 			outputFileName += String.format("_cand_rate_%.2f", experimentResult.getCandidateRate()); 			
 		}
+		if (experimentResult.getFileRankLimit() > 10){
+			outputFileName += String.format("_file_rank_limit_%d", experimentResult.getFileRankLimit());
+		}
 		outputFileName += "_" + experimentResult.getAlgorithmName() + ".txt";
 		
 		return outputFileName;

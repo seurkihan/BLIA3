@@ -79,7 +79,7 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 			String str;
 			while((str = bur.readLine()) != null){				
 				if(!str.split(",")[1].toLowerCase().equals("class_url")){					
-					//�뿬湲� �씠�긽�븿!!!
+
 					String apiFile = str.split(",")[1].toLowerCase();
 					apiFile = apiFile.substring((apiFile.lastIndexOf("/")+1),apiFile.length()).replace(".html", ".java");
 //					System.out.println(apiFile.toLowerCase()+" "+file.getName());
