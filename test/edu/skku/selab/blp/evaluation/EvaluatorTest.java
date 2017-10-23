@@ -15,10 +15,8 @@ import org.junit.Test;
 
 import edu.skku.selab.blp.Property;
 import edu.skku.selab.blp.blia.analysis.BLIA;
-import edu.skku.selab.blp.db.IntegratedAnalysisValue;
 import edu.skku.selab.blp.db.dao.DbUtil;
 import edu.skku.selab.blp.db.dao.SourceFileDAO;
-import edu.skku.selab.blp.evaluation.Evaluator;
 import edu.skku.selab.blp.utils.Util;
 
 
@@ -224,7 +222,7 @@ public class EvaluatorTest {
 			boolean includeMethodAnalyze = prop.isMethodLevel();
 			
 			long totalStartTime = System.currentTimeMillis();
-			System.out.printf("[STARTED] BLIA Evaluation with ETA ."+prop.getEta()+"\n");
+			System.out.printf("[STARTED] BLIA Evaluation with ETA. "+prop.getEta()+"\n");
 			runBLIA(useStrucrutedInfo, prepareAnalysisData, preAnalyze, analyze, includeStackTrace, includeMethodAnalyze);
 			
 			if (analyze) {
@@ -384,7 +382,7 @@ public class EvaluatorTest {
 		int[] fileRankLimit = {10, 20, 30, 50, 100};
 		
 		for (int i = 0; i < fileRankLimit.length; i++) {
-			prop.setCandidateLimitRate(fileRankLimit[i]);
+			prop.setFileRankLimit(fileRankLimit[i]);
 			runBLIA(useStrucrutedInfo, prepareAnalysisData, preAnalyze, analyze, includeStackTrace, includeMethodAnalyze);
 
 			if (analyze) {

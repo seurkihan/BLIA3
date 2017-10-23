@@ -7,16 +7,12 @@
  */
 package edu.skku.selab.blp.common;
 
-import static org.junit.Assert.*;
-
-import java.util.TreeSet;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-
-import edu.skku.selab.blp.common.Bug;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)

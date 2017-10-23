@@ -14,8 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.skku.selab.blp.Property;
-import edu.skku.selab.blp.blia.indexer.BugCorpusCreator;
-import edu.skku.selab.blp.blia.indexer.BugVectorCreator;
 import edu.skku.selab.blp.db.dao.DbUtil;
 
 /**

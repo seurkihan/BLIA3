@@ -7,7 +7,10 @@
  */
 package edu.skku.selab.blp.db.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +25,6 @@ import org.junit.Test;
 
 import edu.skku.selab.blp.common.SourceFileCorpus;
 import edu.skku.selab.blp.db.AnalysisValue;
-import edu.skku.selab.blp.db.dao.SourceFileDAO;
 
 /**
  * @author Klaus Changsun Youm(klausyoum@skku.edu)
