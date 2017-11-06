@@ -68,7 +68,7 @@ public class StructuredSourceFileCorpusCreator extends SourceFileCorpusCreator {
 		
 		Property property = Property.getInstance();
 		String product = property.getProductName();
-		File f = new File("./db/" +product+ "_api.csv");
+		File f = new File("./data/api/" +product+ "_api.csv");
 		FileInputStream fis;
 		String apiCorpus="";
 		try {

@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import org.jsoup.Jsoup;
 
 public class APIParser {
-	static String path = "C:\\Users\\rose\\Desktop\\zxing-api\\";
+	static String path = "E:\\5_LabTask\\3.楷备角包府\\切何楷备积\\20160919-茄浇扁-弥利傈贸府\\api\\";
 	
 	public static void main(String[] args) throws Exception {
 		BufferedWriter bw = new BufferedWriter(new FileWriter("./zxing-api.csv"));
