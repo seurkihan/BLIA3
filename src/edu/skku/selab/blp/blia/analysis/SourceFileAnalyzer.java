@@ -253,7 +253,7 @@ public class SourceFileAnalyzer {
 //    							}
 //    						}
     						
-    						double weight = 1;
+    						double weight = 1.0;
     						if (i == 3) {
     							weight = 0.5;	// weight 0.3~0.5 is best for AspectJ
     						}

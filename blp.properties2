@@ -34,15 +34,15 @@ STRUCTURED_INFO_INCLUDED=false
 	
 # For AspectJ
 ASPECTJ_PRODUCT=aspectj
-ASPECTJ_SOURCE_DIR=/test/Dataset/org.aspectj-1_5_3_final
+ASPECTJ_SOURCE_DIR=D:\\Users\\rose\\BLIA\\Dataset\\org.aspectj-1_5_3_final
 ASPECTJ_ALPHA=0.0
 ASPECTJ_BETA=0.0
 ASPECTJ_GAMMA=0.0
 ASPECTJ_DELTA=0.0
 ASPECTJ_ETA=0.0
 ASPECTJ_PAST_DAYS=100
-ASPECTJ_REPO_DIR=/test/org.aspectj/.git
-ASPECTJ_BUG_REPO_FILE=/test/ExtendedAspectJBugRepository.xml
+ASPECTJ_REPO_DIR=D:\\Users\\rose\\git\\org.aspectj\\.git
+ASPECTJ_BUG_REPO_FILE=./data/ExtendedAspectJBugRepository.xml
 ASPECTJ_COMMIT_SINCE=2002-07-01
 ASPECTJ_COMMIT_UNTIL=2008-12-15
 ASPECTJ_CANDIDATE_LIMIT_RATE=0.1
@@ -50,15 +50,15 @@ ASPECTJ_FILE_RANK_LIMIT=30
 
 # For SWT
 SWT_PRODUCT=swt
-SWT_SOURCE_DIR=/test/Dataset/swt-3.659
+SWT_SOURCE_DIR=D:\\Users\\rose\\BLIA\\Dataset\\swt-3.659\\src
 SWT_ALPHA=0.0
 SWT_BETA=0.0
 SWT_GAMMA=0.0
 SWT_DELTA=0.0
 SWT_ETA=0.0
 SWT_PAST_DAYS=120
-SWT_REPO_DIR=/test/eclipse.platform.swt/.git
-SWT_BUG_REPO_FILE=/test/ExtendedSWTBugRepository.xml 
+SWT_REPO_DIR=D:\\Users\\rose\\git\\eclipse.platform.swt2\\.git
+SWT_BUG_REPO_FILE=./data/ExtendedSWTBugRepository.xml
 SWT_COMMIT_SINCE=2002-04-01
 SWT_COMMIT_UNTIL=2010-05-01
 SWT_CANDIDATE_LIMIT_RATE=0.1
@@ -66,15 +66,15 @@ SWT_FILE_RANK_LIMIT=10
 
 # For Zxing
 ZXING_PRODUCT=zxing
-ZXING_SOURCE_DIR=/test/Dataset/ZXing-1.6
+ZXING_SOURCE_DIR=D:\\Users\\rose\\BLIA\\Dataset\\ZXing-1.6
 ZXING_ALPHA=0.0
 ZXING_BETA=1.0
 ZXING_GAMMA=1.0
 ZXING_DELTA=0.0
 ZXING_ETA=0.0
 ZXING_PAST_DAYS=40
-ZXING_REPO_DIR=/test/zxing/.git
-ZXING_BUG_REPO_FILE=/test/ExtendedZXingBugRepository.xml
+ZXING_REPO_DIR=D:\\Users\\rose\\git\\zxing\\.git
+ZXING_BUG_REPO_FILE=./data/ExtendedZXingBugRepository.xml
 ZXING_COMMIT_SINCE=2010-03-01
 ZXING_COMMIT_UNTIL=2010-09-30
 ZXING_CANDIDATE_LIMIT_RATE=0.1

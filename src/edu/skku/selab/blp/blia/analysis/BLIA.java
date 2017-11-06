@@ -401,17 +401,18 @@ public class BLIA {
 			int methodID = integratedMethodAnalysisValuesIter.next();
 			
 			ExtendedIntegratedAnalysisValue integratedMethodAnalysisValue = integratedMethodAnalysisValues.get(methodID);
+			
 			double methodVsmScore = integratedMethodAnalysisValue.getVsmScore();
 			double commitMethodLogScore = integratedMethodAnalysisValue.getCommitLogScore();
 			double methodSimiScore = integratedMethodAnalysisValue.getSimilarityScore();
 			double mthBugLocatorScore = (1 - delta) * (methodVsmScore) + delta * methodSimiScore;
 			integratedMethodAnalysisValue.setBugLocatorScore(mthBugLocatorScore);
 			double bliaMethodScore = mthBugLocatorScore;
-			if (bliaMethodScore > 0) {
+//			if (bliaMethodScore > 0) {
 				bliaMethodScore = (1 - gamma) * bliaMethodScore + gamma * commitMethodLogScore;
-			} else {
-				bliaMethodScore = 0;
-			}
+//			} else {
+//				bliaMethodScore = 0;
+//			}
 			integratedMethodAnalysisValue.setBliaMethodScore(bliaMethodScore);
 			
 //			System.out.println("" + methodSimiScore + " " + methodVsmScore);
